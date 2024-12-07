@@ -1,10 +1,12 @@
 # Advent of Code 2024, Day 02
 # https://adventofcode.com/2024/day/2
 
+
 # Part One
 def load_data(file_name):
     for line in open(file_name, "r"):
         yield list(map(int, line.split()))
+
 
 def is_save_1(report):
     values_pairs = zip(report[:-1], report[1:])
@@ -28,7 +30,7 @@ def part_2(file_name):
     return sum(is_save_2(report) for report in load_data(file_name))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("1. Example:", part_1("data/day02-example.txt"), "=? 2")
     print("1. Answer:", part_1("data/day02-data.txt"))
     print("2. Example:", part_2("data/day02-example.txt"), "=? 4")

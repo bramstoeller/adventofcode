@@ -1,6 +1,7 @@
 # Advent of Code 2024, Day 1
 # https://adventofcode.com/2024/day/1
 
+
 # Part One
 def load_data(file_name):
     data = open(file_name, "r").readlines()
@@ -24,7 +25,7 @@ def part_2(file_name):
     return sum(similarity(*load_data(file_name)))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("1. Example:", part_1("data/day01-example.txt"), "=? 11")
     print("1. Answer:", part_1("data/day01-data.txt"))
     print("2. Example:", part_2("data/day01-example.txt"), "=? 31")

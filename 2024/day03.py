@@ -9,8 +9,7 @@ def load_data(file_name):
 
 
 def find_mul_instructions(data, pattern):
-
-    for match in pattern.finditer(data, ):
+    for match in pattern.finditer(data):
         yield (int(x) for x in match.groups())
 
 
@@ -20,7 +19,6 @@ def part_1(file_name):
 
 
 # Part Two
-
 def find_do_dont_instructions(file_name, pattern):
     enabled = True
     data = open(file_name, "r").read()
