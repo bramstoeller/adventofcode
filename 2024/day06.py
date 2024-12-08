@@ -37,10 +37,6 @@ def part_1(files_name):
 
 
 # Part Two
-def fn_2(data):
-    return []
-
-
 def has_loop(obstacles, pos, direction, max_x, max_y):
     visited = set()
     while pos[0] >= 0 and pos[0] <= max_x and pos[1] >= 0 and pos[1] <= max_y:
