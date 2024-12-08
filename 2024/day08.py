@@ -17,8 +17,6 @@ def find_anti_antennas(antennas):
     anti_antennas = set()
     for antenna, points in antennas.items():
         for p, q in combinations(points, 2):
-            if p == q:
-                continue
             dx = p[0] - q[0]
             dy = p[1] - q[1]
             anti_antennas.add((p[0] + dx, p[1] + dy))
@@ -32,16 +30,33 @@ def part_1(file_name):
 
 
 # Part Two
-def fn_2(data):
-    return []
+def find_all_anti_antennas(antennas, max_x, max_y):
+    anti_antennas = set()
+    for antenna, points in antennas.items():
+        for p, q in combinations(points, 2):
+            dx = p[0] - q[0]
+            dy = p[1] - q[1]
+            x = p[0]
+            y = p[1]
+            while 0 <= x <= max_x and 0 <= y <= max_y:
+                anti_antennas.add((x, y))
+                x += dx
+                y += dy
+            x = q[0]
+            y = q[1]
+            while 0 <= x <= max_x and 0 <= y <= max_y:
+                anti_antennas.add((x, y))
+                x -= dx
+                y -= dy
+    return anti_antennas
 
 
 def part_2(file_name):
-    return sum(fn_2(load_data(file_name)))
+    return len(set(find_all_anti_antennas(*read_map(file_name))))
 
 
 if __name__ == "__main__":
     print("1. Example:", part_1("data/day08-example.txt"), "=? 14")
     print("1. Answer:", part_1("data/day08-data.txt"))
-    # print("2. Example:", part_2("data/day00-example.txt"), "=? #")
-    # print("2. Answer:", part_2("data/day00-data.txt"))
+    print("2. Example:", part_2("data/day08-example.txt"), "=? 34")
+    print("2. Answer:", part_2("data/day08-data.txt"))
