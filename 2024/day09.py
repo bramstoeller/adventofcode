@@ -3,87 +3,71 @@
 
 
 # Part One
-def load_data(file_name):
-    return open(file_name, "r").read().strip()
-
-def decompress(line):
-    return [(int(i) // 2) if int(i) % 2 == 0 else None for i, n in enumerate(line.strip()) for _ in range(int(n))]
+from itertools import chain
 
 
-def compact(line):
-    comp = []
-    n = len(line)
-    i = 0
-    j = 0
-    while i < n - j:
-        if line[i] is not None:
-            comp.append(line[i])
-        else:
-            while line[-(j+1)] is None:
-                j += 1
-            if i + j >= n:
+def read_disk(file_name):
+    return (int(n) for n in open(file_name, "r").read().strip())
+
+
+def decompress_1(disk):
+    return list(chain(*([i // 2 if i % 2 == 0 else None] * n for i, n in enumerate(disk))))
+
+
+def defrag_1(disk):
+    n = len(disk)
+    front = 0
+    back = n - 1
+    while front < back:
+        if disk[front] is None:
+            while disk[back] is None:
+                back -= 1
+            if front > back:
                 break
-            comp.append(line[-(j+1)])
-            j += 1
-        i += 1
-    return comp
+            disk[front] = disk[back]
+            disk[back] = None
+            back -= 1
+        front += 1
+    return disk
 
-def checksum(data):
-    x = 0
-    i = 0
-    for n in data:
-        if n is not None:
-            x += i * int(n)
-        i += 1
-    return x
+
+def checksum(disk):
+    return sum(i * id if id is not None else 0 for i, id in enumerate(disk))
+
 
 def part_1(file_name):
-    return checksum(compact(decompress(load_data(file_name))))
+    return checksum(defrag_1(decompress_1(read_disk(file_name))))
 
 
 # Part Two
-def load_data2(file_name):
-    return open(file_name, "r").read().strip()
 
-def decompress2(line):
-    dec = [((int(i) // 2, int(n))) if int(i) % 2 == 0 else (None, int(n)) for i, n in enumerate(line.strip())]
-    return [x for x in dec if x[1] > 0]
+def decompress_2(disk):
+    return list((i // 2 if i % 2 == 0 else None, n) for i, n in enumerate(disk))
 
 
-def compact2(line):
-    back = len(line) - 1
+def defrag_2(disk):
+    back = len(disk)
     while back > 0:
-        id, n = line[back]
+        back -= 1
+        id, n = disk[back]
         if id is None:
-            back -= 1
             continue
         for front in range(back):
-            id_, n_ = line[front]
-            if id_ is not None:
+            front_id, space = disk[front]
+            if front_id is not None or space < n:
                 continue
-            if n_ < n:
-                continue
-            if n_ == n:
-                line[front] = (id, n)
-                line[back] = (None, n)
-                break
-            if n_ > n:
-                line[front] = (id, n)
-                line[back] = (None, n)
-                line.insert(front + 1, (None, n_ - n))
+            if space > n:
+                disk.insert(front + 1, (None, space - n))
                 back += 1
-                break
-        back -= 1
-
-
-    out = []
-    for i, n in line:
-        out += [i] * n
-    return out
+            disk[front] = (id, n)
+            disk[back] = (None, n)
+            break
+    return chain(*([i] * n for i, n in disk))
 
 
 def part_2(file_name):
-    return checksum(compact2(decompress2(load_data2(file_name))))
+    return checksum(defrag_2(decompress_2(read_disk(file_name))))
+
 
 if __name__ == "__main__":
     print("1. Example:", part_1("data/day09-example.txt"), "=? 1928")
