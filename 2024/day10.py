@@ -1,42 +1,31 @@
-# Advent of Code 2024, Day 01
+# Advent of Code 2024, Day 10
 # https://adventofcode.com/2024/day/10
 
 
 # Part One
-
 def load_data(file_name):
-    data = open(file_name, "r").readlines()
-    return {(x, y): int(h) for y, line in enumerate(data) for x, h in enumerate(line.strip()) if h != "."}
+    data = enumerate(open(file_name, "r").readlines())
+    data = [(x, y, h) for y, line in data for x, h in enumerate(line.strip()) if h != "."]
+    nodes = {i: set() for i in range(10)}
+    for x, y, h in data:
+        nodes[int(h)].add(x + y * 1j)
+    return nodes
 
 
-def plan_routes(data):
-    paths = [[(x, y)] for (x, y), h in data.items() if h == 0]
+def plan_routes(nodes):
+    paths = [[n] for n in nodes[0]]
     for h in range(1, 10):
-        new_paths = []
-        for p in paths:
-            x, y = p[-1]
-            if (x, y - 1) in data and data[(x, y - 1)] == h:
-                new_paths.append(p + [(x, y - 1)])
-            if (x, y + 1) in data and data[(x, y + 1)] == h:
-                new_paths.append(p + [(x, y + 1)])
-            if (x - 1, y) in data and data[(x - 1, y)] == h:
-                new_paths.append(p + [(x - 1, y)])
-            if (x + 1, y) in data and data[(x + 1, y)] == h:
-                new_paths.append(p + [(x + 1, y)])
-        paths = new_paths
+        paths = [p + [p[-1] + d] for p in paths for d in (1j ** i for i in range(4)) if p[-1] + d in nodes[h]]
     return paths
 
 
 def part_1(file_name):
-    routes = plan_routes(load_data(file_name))
-    endpoints = [p[0] + p[1] for p in routes]
-    return len(set(endpoints))
+    return len(set((p[0], p[-1]) for p in plan_routes(load_data(file_name))))
 
 
 # Part Two
 def part_2(file_name):
-    routes = plan_routes(load_data(file_name))
-    return len(routes)
+    return len(plan_routes(load_data(file_name)))
 
 
 if __name__ == "__main__":
