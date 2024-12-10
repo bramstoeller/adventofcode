@@ -10,26 +10,26 @@ def load_data(file_name):
 
 
 def plan_routes(data):
-    paths = [[(x, y, h)] for (x, y), h in data.items() if h == 0]
+    paths = [[(x, y)] for (x, y), h in data.items() if h == 0]
     for h in range(1, 10):
         new_paths = []
         for p in paths:
-            x, y, _ = p[-1]
-            if (x, y-1) in data and data[(x, y-1)] == h:
-                new_paths.append(p + [(x, y-1, h)])
-            if (x, y+1) in data and data[(x, y+1)] == h:
-                new_paths.append(p + [(x, y+1, h)])
-            if (x-1, y) in data and data[(x-1, y)] == h:
-                new_paths.append(p + [(x-1, y, h)])
-            if (x+1, y) in data and data[(x+1, y)] == h:
-                new_paths.append(p + [(x+1, y, h)])
+            x, y = p[-1]
+            if (x, y - 1) in data and data[(x, y - 1)] == h:
+                new_paths.append(p + [(x, y - 1)])
+            if (x, y + 1) in data and data[(x, y + 1)] == h:
+                new_paths.append(p + [(x, y + 1)])
+            if (x - 1, y) in data and data[(x - 1, y)] == h:
+                new_paths.append(p + [(x - 1, y)])
+            if (x + 1, y) in data and data[(x + 1, y)] == h:
+                new_paths.append(p + [(x + 1, y)])
         paths = new_paths
     return paths
 
 
 def part_1(file_name):
     routes = plan_routes(load_data(file_name))
-    endpoints = [(p[0][0], p[0][1], p[-1][0], p[-1][1]) for p in routes]
+    endpoints = [p[0] + p[1] for p in routes]
     return len(set(endpoints))
 
 
