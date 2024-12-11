@@ -41,13 +41,17 @@ def blinky(stones):
         else:
             yield s * 2024
 
+cache = {}
 
 def recurse(stones, n):
-    if n == 50:
-        print(stones)
     if n == 0:
         return len(stones)
-    return sum(recurse([s], n - 1) for s in blinky(stones))
+    total = 0
+    for s in blinky(stones):
+        if (s, n-1) not in cache:
+            cache[(s, n-1)] = recurse([s], n-1)
+        total += cache[(s, n-1)]
+    return total
 
 
 def part_2(file_name, n=75):
