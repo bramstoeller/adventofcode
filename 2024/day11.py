@@ -21,9 +21,9 @@ def blink(stones):
     return out
 
 
-def part_1(file_name):
+def part_1(file_name, n=25):
     stones = load_data(file_name)
-    for i in range(25):
+    for i in range(n):
         stones = blink(stones)
     return len(stones)
 
@@ -50,12 +50,13 @@ def recurse(stones, n):
     return sum(recurse([s], n - 1) for s in blinky(stones))
 
 
-def part_2(file_name):
+def part_2(file_name, n=75):
     stones = load_data(file_name)
-    return recurse(stones, 75)
+    return recurse(stones, n)
 
 
 if __name__ == "__main__":
     print("1. Example:", part_1("data/day11-example.txt"), "=? 55312")
     print("1. Answer:", part_1("data/day11-data.txt"))
+    print("2. Example:", part_2("data/day11-example.txt", 25), "=? 55312")
     print("2. Answer:", part_2("data/day11-data.txt"))
