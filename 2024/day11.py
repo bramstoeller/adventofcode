@@ -33,15 +33,12 @@ def part_1(file_name, depth):
 
 
 # Part Two
-cache = {}
+from functools import cache
 
 
+@cache
 def calc_num_stones(stone, depth):
-    if depth == 0:
-        return 1
-    if (depth, stone) not in cache:
-        cache[(depth, stone)] = sum(calc_num_stones(s, depth - 1) for s in blink(stone))
-    return cache[(depth, stone)]
+    return sum(calc_num_stones(s, depth - 1) for s in blink(stone)) if depth > 0 else 1
 
 
 def part_2(file_name, depth):
@@ -53,4 +50,3 @@ if __name__ == "__main__":
     print("1. Answer:", part_1("data/day11-data.txt", 25))
     print("2. Example:", part_2("data/day11-example.txt", 25), "=? 55312")
     print("2. Answer:", part_2("data/day11-data.txt", 75))
-    print("Cached nodes: ", len(cache))
