@@ -110,17 +110,11 @@ def part_1(file_name):
 
 
 # Part Two
-states = set()
-
 
 def fn_2(a, b, c, program):
     reg = [a, b, c, 0]
     output = []
     while 0 <= reg[-1] < len(program):
-        key = tuple(output + reg)
-        if key in states:
-            return False
-        states.add(key)
         cursor = reg[-1]
         opcode = program[cursor]
         operand = program[cursor + 1]
@@ -128,20 +122,17 @@ def fn_2(a, b, c, program):
         out = instruction(reg, operand)
         if out is not None:
             if out != program[len(output)]:
-                if len(output) > len(program) // 2:
-                    print(a, output)
                 return False
             output.append(out)
     return output == program
 
 
 def part_2(file_name):
-    states.clear()
     a, b, c, program = load_program(file_name)
     a = 0
     while True:
         if a % 1000000 == 0:
-            print(a, len(states))
+            print(a)
         if fn_2(a, b, c, program):
             return a
         a += 1
