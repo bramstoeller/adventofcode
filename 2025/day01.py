@@ -48,7 +48,7 @@ def part_2(input_file):
     return cross0 + at0
 
 
-def part_2_polished(input_file):
+def part_2_optimized(input_file):
     data = load_data(input_file)
     pos = 50
     hit0 = 0
@@ -68,5 +68,5 @@ if __name__ == "__main__":
     run(part_1, "data/day01-data.txt")
     x = run(part_2, "data/day01-example.txt", expected=6)
     y = run(part_2, "data/day01-data.txt")
-    run(part_2_polished, "data/day01-example.txt", expected=x)
-    run(part_2_polished, "data/day01-data.txt", expected=y)
+    run(part_2_optimized, "data/day01-example.txt", expected=x)
+    run(part_2_optimized, "data/day01-data.txt", expected=y)
