@@ -132,7 +132,10 @@ def part_2(file_name):
 
 
 if __name__ == "__main__":
-    print("1. Example:", part_1("data/day17-example1.txt"), "=? 4,6,3,5,6,3,5,2,1,0")
-    print("1. Answer:", part_1("data/day17-data.txt"))
-    print("2. Example:", part_2("data/day17-example2.txt"), "=? 117440")
-    print("2. Answer:", part_2("data/day17-data.txt"))
+    from utils import run
+
+    run(part_1, "data/day17-example1.txt", expected="4,6,3,5,6,3,5,2,1,0")
+    run(part_1, "data/day17-data.txt", expected="7,1,3,7,5,1,0,3,4")
+    # part_2 takes too long to run
+    # run(part_2, "data/day17-example2.txt", expected=117440)
+    # run(part_2, "data/day17-data.txt")

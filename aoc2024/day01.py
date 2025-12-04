@@ -26,7 +26,9 @@ def part_2(file_name):
 
 
 if __name__ == "__main__":
-    print("1. Example:", part_1("data/day01-example.txt"), "=? 11")
-    print("1. Answer:", part_1("data/day01-data.txt"))
-    print("2. Example:", part_2("data/day01-example.txt"), "=? 31")
-    print("2. Answer:", part_2("data/day01-data.txt"))
+    from utils import run
+
+    run(part_1, "data/day01-example.txt", expected=11)
+    run(part_1, "data/day01-data.txt", expected=1830467)
+    run(part_2, "data/day01-example.txt", expected=31)
+    run(part_2, "data/day01-data.txt", expected=26674158)

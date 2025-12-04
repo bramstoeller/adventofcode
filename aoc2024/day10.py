@@ -36,14 +36,15 @@ def part_2(file_name):
 
 
 if __name__ == "__main__":
-    print("1. Example 1.1:", part_1("data/day10-example1-1.txt"), "=? 1")
-    print("1. Example 1.2:", part_1("data/day10-example1-2.txt"), "=? 2")
-    print("1. Example 1.3:", part_1("data/day10-example1-3.txt"), "=? 4")
-    print("1. Example 1.4:", part_1("data/day10-example1-4.txt"), "=? 3")
-    print("1. Example 1.5:", part_1("data/day10-example1-5.txt"), "=? 36")
-    print("1. Answer:", part_1("data/day10-data.txt"))
+    from utils import run
 
-    print("2. Example 2.1:", part_2("data/day10-example2-1.txt"), "=? 3")
-    print("2. Example 2.2:", part_2("data/day10-example2-2.txt"), "=? 13")
-    print("2. Example 2.3:", part_2("data/day10-example2-3.txt"), "=? 81")
-    print("2. Answer:", part_2("data/day10-data.txt"))
+    run(part_1, "data/day10-example1-1.txt", expected=1)
+    run(part_1, "data/day10-example1-2.txt", expected=2)
+    run(part_1, "data/day10-example1-3.txt", expected=4)
+    run(part_1, "data/day10-example1-4.txt", expected=3)
+    run(part_1, "data/day10-example1-5.txt", expected=36)
+    run(part_1, "data/day10-data.txt", expected=688)
+    run(part_2, "data/day10-example2-1.txt", expected=3)
+    run(part_2, "data/day10-example2-2.txt", expected=13)
+    run(part_2, "data/day10-example2-3.txt", expected=81)
+    run(part_2, "data/day10-data.txt", expected=1459)

@@ -60,6 +60,9 @@ def part_2(file_name, size, max_moves):
 
 
 if __name__ == "__main__":
-    print("1. Example:", part_1("data/day14-example.txt", (11, 7), 100), "=? 12")
-    print("1. Answer:", part_1("data/day14-data.txt", (101, 103), 100))
-    part_2("data/day14-data.txt", (101, 103), 10000)
+    from utils import run
+
+    run(part_1, "data/day14-example.txt", (11, 7), 100, expected=12)
+    run(part_1, "data/day14-data.txt", (101, 103), 100, expected=226179492)
+    # part_2 is interactive, skip it
+    # part_2("data/day14-data.txt", (101, 103), 10000)

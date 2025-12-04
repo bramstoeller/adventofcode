@@ -47,7 +47,9 @@ def part_2(file_name, depth):
 
 
 if __name__ == "__main__":
-    print("1. Example:", part_1("data/day11-example.txt", 25), "=? 55312")
-    print("1. Answer:", part_1("data/day11-data.txt", 25))
-    print("2. Example:", part_2("data/day11-example.txt", 25), "=? 55312")
-    print("2. Answer:", part_2("data/day11-data.txt", 75))
+    from utils import run
+
+    run(part_1, "data/day11-example.txt", 25, expected=55312)
+    run(part_1, "data/day11-data.txt", 25, expected=220722)
+    run(part_2, "data/day11-example.txt", 25, expected=55312)
+    run(part_2, "data/day11-data.txt", 75, expected=261952051690787)
