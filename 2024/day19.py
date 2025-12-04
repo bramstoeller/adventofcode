@@ -7,8 +7,8 @@ from functools import cache
 def load_data(file_name):
     data = open(file_name, "r").read()
     towels, patterns = data.split("\n\n")
-    towels = list(towels.strip().split(", "))
-    patterns = [line.strip() for line in patterns.strip().split("\n")]
+    towels = towels.strip().split(", ")
+    patterns = patterns.strip().split("\n")
     return towels, patterns
 
 
