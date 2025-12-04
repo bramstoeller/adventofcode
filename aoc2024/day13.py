@@ -63,9 +63,7 @@ def part_1(file_name):
 # Part Two
 def part_2(file_name):
     equations = load_equations(file_name)
-    equations = [
-        ab + [px + 10000000000000, py + 10000000000000] for *ab, px, py in equations
-    ]
+    equations = [ab + [px + 10000000000000, py + 10000000000000] for *ab, px, py in equations]
     return sum(solve(*eq) for eq in equations)
 
 

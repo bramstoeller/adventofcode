@@ -25,6 +25,7 @@ def part_1(input_file):
 
 # Part Two
 
+
 def move(grid, roi):
     ctr = center(grid, roi)
     is_roll = ctr == "@"

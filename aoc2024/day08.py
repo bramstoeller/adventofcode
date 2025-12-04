@@ -10,9 +10,7 @@ from itertools import chain, combinations
 def read_map(file_name):
     data = [line.strip() for line in open(file_name)]
     antennas = defaultdict(list)
-    for x, y, c in (
-        (x, y, c) for y, line in enumerate(data) for x, c in enumerate(line) if c != "."
-    ):
+    for x, y, c in ((x, y, c) for y, line in enumerate(data) for x, c in enumerate(line) if c != "."):
         antennas[c].append(x + y * 1j)
     return dict(antennas), (len(data[0]) - 1) + (len(data) - 1) * 1j
 
@@ -22,16 +20,8 @@ def on_map(p, p_max):
 
 
 def find_anti_antennas(antennas, p_max):
-    anti_antennas = {
-        p - (q - p)
-        for antenna, points in antennas.items()
-        for p, q in combinations(points, 2)
-    }
-    anti_antennas |= {
-        q + (q - p)
-        for antenna, points in antennas.items()
-        for p, q in combinations(points, 2)
-    }
+    anti_antennas = {p - (q - p) for antenna, points in antennas.items() for p, q in combinations(points, 2)}
+    anti_antennas |= {q + (q - p) for antenna, points in antennas.items() for p, q in combinations(points, 2)}
     return {p for p in anti_antennas if on_map(p, p_max)}
 
 
@@ -56,11 +46,7 @@ def pt_range(p, q, p_max):
 
 
 def find_all_anti_antennas(antennas, max_p):
-    anti_antennas = (
-        pt_range(p, q, max_p)
-        for _, points in antennas.items()
-        for p, q in combinations(points, 2)
-    )
+    anti_antennas = (pt_range(p, q, max_p) for _, points in antennas.items() for p, q in combinations(points, 2))
     return set(chain(*anti_antennas))
 
 

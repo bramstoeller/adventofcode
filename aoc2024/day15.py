@@ -9,9 +9,7 @@ def load_map(file_name):
     grid = grid.strip().split("\n")
     grid = [list(line) for line in grid]
     moves = moves.strip().replace("\n", "")
-    robot = next(
-        (x, y) for y, line in enumerate(grid) for x, c in enumerate(line) if c == "@"
-    )
+    robot = next((x, y) for y, line in enumerate(grid) for x, c in enumerate(line) if c == "@")
     d = {"^": (0, -1), ">": (1, 0), "v": (0, 1), "<": (-1, 0)}
     moves = list(map(d.get, moves))
     return grid, robot, moves
@@ -38,12 +36,7 @@ def part_1(file_name):
     for m in moves:
         if move(grid, robot, m):
             robot = (robot[0] + m[0], robot[1] + m[1])
-    boxes = (
-        x + y * 100
-        for y, line in enumerate(grid)
-        for x, c in enumerate(line)
-        if c == "O"
-    )
+    boxes = (x + y * 100 for y, line in enumerate(grid) for x, c in enumerate(line) if c == "O")
     return sum(boxes)
 
 
@@ -79,12 +72,7 @@ def part_2(file_name):
         if move2(grid, robot, m, False):
             move2(grid, robot, m, True)
             robot = (robot[0] + m[0], robot[1] + m[1])
-    boxes = (
-        x + y * 100
-        for y, line in enumerate(grid)
-        for x, c in enumerate(line)
-        if c == "["
-    )
+    boxes = (x + y * 100 for y, line in enumerate(grid) for x, c in enumerate(line) if c == "[")
     return sum(boxes)
 
 

@@ -32,10 +32,7 @@ def is_invalid_2(id):
         if id_len % part_len:
             continue
         n_parts = id_len // part_len
-        if all(
-            sid[:part_len] == sid[i * part_len : (i + 1) * part_len]
-            for i in range(1, n_parts)
-        ):
+        if all(sid[:part_len] == sid[i * part_len : (i + 1) * part_len] for i in range(1, n_parts)):
             return True
     return False
 

@@ -15,9 +15,7 @@ def manhattan_distance(a, b):
 def get_neighbors(node, size):
     x, y = node
     d = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-    return {
-        (x + dx, y + dy) for dx, dy in d if 0 <= x + dx <= size and 0 <= y + dy <= size
-    }
+    return {(x + dx, y + dy) for dx, dy in d if 0 <= x + dx <= size and 0 <= y + dy <= size}
 
 
 def reconstruct_path(came_from, p):

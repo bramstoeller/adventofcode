@@ -16,9 +16,7 @@ def load_data(file_name):
 def has_design(pattern, towels):
     if len(pattern) == 0:
         return True
-    return any(
-        has_design(pattern[len(t) :], towels) for t in towels if pattern.startswith(t)
-    )
+    return any(has_design(pattern[len(t) :], towels) for t in towels if pattern.startswith(t))
 
 
 def part_1(file_name):
@@ -33,11 +31,7 @@ def part_1(file_name):
 def count_designs(pattern, towels):
     if len(pattern) == 0:
         return 1
-    return sum(
-        count_designs(pattern[len(t) :], towels)
-        for t in towels
-        if pattern.startswith(t)
-    )
+    return sum(count_designs(pattern[len(t) :], towels) for t in towels if pattern.startswith(t))
 
 
 def part_2(file_name):

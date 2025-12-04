@@ -6,15 +6,8 @@
 def read_map(file_name):
     directions = {"^": (0, -1), "v": (0, 1), "<": (-1, 0), ">": (1, 0)}
     data = open(file_name, "r").read().strip().splitlines()
-    obstacles = set(
-        (x, y) for y, line in enumerate(data) for x, c in enumerate(line) if c == "#"
-    )
-    pos, dir_char = next(
-        ((x, y), c)
-        for y, line in enumerate(data)
-        for x, c in enumerate(line)
-        if c in directions
-    )
+    obstacles = set((x, y) for y, line in enumerate(data) for x, c in enumerate(line) if c == "#")
+    pos, dir_char = next(((x, y), c) for y, line in enumerate(data) for x, c in enumerate(line) if c in directions)
     direction = directions[dir_char]
     max_x = len(data[0]) - 1
     max_y = len(data) - 1
@@ -22,9 +15,7 @@ def read_map(file_name):
 
 
 def turn_right(direction):
-    return {(0, -1): (1, 0), (0, 1): (-1, 0), (-1, 0): (0, -1), (1, 0): (0, 1)}[
-        direction
-    ]
+    return {(0, -1): (1, 0), (0, 1): (-1, 0), (-1, 0): (0, -1), (1, 0): (0, 1)}[direction]
 
 
 def move_forward(pos, direction):

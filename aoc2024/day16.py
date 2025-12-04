@@ -5,15 +5,8 @@
 # Part One
 def load_map(file_name):
     grid = [line.strip() for line in open(file_name, "r").readlines()]
-    start = next(
-        (x, y, 1, 0)
-        for y, row in enumerate(grid)
-        for x, c in enumerate(row)
-        if c == "S"
-    )
-    end = next(
-        (x, y) for y, row in enumerate(grid) for x, c in enumerate(row) if c == "E"
-    )
+    start = next((x, y, 1, 0) for y, row in enumerate(grid) for x, c in enumerate(row) if c == "S")
+    end = next((x, y) for y, row in enumerate(grid) for x, c in enumerate(row) if c == "E")
     return grid, start, end
 
 
@@ -23,19 +16,11 @@ def fn_1(grid, start, end):
     while open_set:
         x, y, dx, dy = open_set.pop()
         for ndx, ndy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-            cost = (
-                1
-                if (dx, dy) == (ndx, ndy)
-                else 1001
-                if dx != ndx or dy != ndy
-                else 2001
-            )
+            cost = 1 if (dx, dy) == (ndx, ndy) else 1001 if dx != ndx or dy != ndy else 2001
             nx, ny = x + ndx, y + ndy
             if grid[ny][nx] == "#":
                 continue
-            if (nx, ny, ndx, ndy) in closed_set and closed_set[
-                (nx, ny, ndx, ndy)
-            ] <= closed_set[(x, y, dx, dy)] + cost:
+            if (nx, ny, ndx, ndy) in closed_set and closed_set[(nx, ny, ndx, ndy)] <= closed_set[(x, y, dx, dy)] + cost:
                 continue
             open_set.add((nx, ny, ndx, ndy))
             closed_set[(nx, ny, ndx, ndy)] = closed_set[(x, y, dx, dy)] + cost
@@ -54,32 +39,18 @@ def part_1(file_name):
 # Part Two
 def fn_2(grid: list[str], start: tuple[int, int, int, int], end: tuple[int, int]):
     open_set = {start}
-    closed_set: dict[
-        tuple[int, int, int, int], tuple[int, list[tuple[int, int, int, int]]]
-    ] = {start: (0, [])}
+    closed_set: dict[tuple[int, int, int, int], tuple[int, list[tuple[int, int, int, int]]]] = {start: (0, [])}
     while open_set:
         x, y, dx, dy = open_set.pop()
         for ndx, ndy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-            cost = (
-                1
-                if (dx, dy) == (ndx, ndy)
-                else 1001
-                if dx != ndx or dy != ndy
-                else 2001
-            )
+            cost = 1 if (dx, dy) == (ndx, ndy) else 1001 if dx != ndx or dy != ndy else 2001
             nx, ny = x + ndx, y + ndy
             if grid[ny][nx] == "#":
                 continue
             if (nx, ny, ndx, ndy) in closed_set:
-                if (
-                    closed_set[(nx, ny, ndx, ndy)][0]
-                    < closed_set[(x, y, dx, dy)][0] + cost
-                ):
+                if closed_set[(nx, ny, ndx, ndy)][0] < closed_set[(x, y, dx, dy)][0] + cost:
                     continue
-                if (
-                    closed_set[(nx, ny, ndx, ndy)][0]
-                    == closed_set[(x, y, dx, dy)][0] + cost
-                ):
+                if closed_set[(nx, ny, ndx, ndy)][0] == closed_set[(x, y, dx, dy)][0] + cost:
                     closed_set[(nx, ny, ndx, ndy)][1].append((x, y, dx, dy))
                 else:
                     closed_set[(nx, ny, ndx, ndy)] = (

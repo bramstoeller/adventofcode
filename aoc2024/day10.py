@@ -5,9 +5,7 @@
 # Part One
 def load_data(file_name):
     data = enumerate(open(file_name, "r").readlines())
-    return [
-        (x, y, h) for y, line in data for x, h in enumerate(line.strip()) if h != "."
-    ]
+    return [(x, y, h) for y, line in data for x, h in enumerate(line.strip()) if h != "."]
 
 
 def plan_routes(data):
@@ -17,12 +15,7 @@ def plan_routes(data):
 
     paths = [[n] for n in nodes[0]]
     for h in range(1, 10):
-        paths = [
-            p + [p[-1] + d]
-            for p in paths
-            for d in (1j**i for i in range(4))
-            if p[-1] + d in nodes[h]
-        ]
+        paths = [p + [p[-1] + d] for p in paths for d in (1j**i for i in range(4)) if p[-1] + d in nodes[h]]
     return paths
 
 

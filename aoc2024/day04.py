@@ -22,12 +22,7 @@ def find_occurrences(data, needle):
             if y + dy * (n - 1) < 0 or y + dy * (n - 1) > max_y:
                 continue
             for dx in [-1, 0, 1]:
-                if (
-                    dx == 0
-                    and dy == 0
-                    or x + dx * (n - 1) < 0
-                    or x + dx * (n - 1) > max_x
-                ):
+                if dx == 0 and dy == 0 or x + dx * (n - 1) < 0 or x + dx * (n - 1) > max_x:
                     continue
                 if all(c == data[y + i * dy][x + i * dx] for i, c in enumerate(needle)):
                     yield x, y, dx, dy
@@ -52,25 +47,12 @@ def find_occurrences_cross(data, needle):
     for x, y in candidates:
         found = 0
         for dy in [-1, 1]:
-            if (
-                y - dy * n < 0
-                or y + dy * n < 0
-                or y - dy * n > max_y
-                or y + dy * n > max_y
-            ):
+            if y - dy * n < 0 or y + dy * n < 0 or y - dy * n > max_y or y + dy * n > max_y:
                 continue
             for dx in [-1, 1]:
-                if (
-                    x - dx * n < 0
-                    or x + dx * n < 0
-                    or x - dx * n > max_x
-                    or x + dx * n > max_x
-                ):
+                if x - dx * n < 0 or x + dx * n < 0 or x - dx * n > max_x or x + dx * n > max_x:
                     continue
-                if all(
-                    c == data[y + (i - n) * dy][x + (i - n) * dx]
-                    for i, c in enumerate(needle)
-                ):
+                if all(c == data[y + (i - n) * dy][x + (i - n) * dx] for i, c in enumerate(needle)):
                     found += 1
         if found == 2:
             yield x, y

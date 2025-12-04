@@ -20,11 +20,7 @@ def calc(values, operators):
 
 def part_1(file_name):
     operators = [lambda x, y: x + y, lambda x, y: x * y]
-    return sum(
-        answer
-        for answer, values in read_equations(file_name)
-        if answer in calc(values, operators)
-    )
+    return sum(answer for answer, values in read_equations(file_name) if answer in calc(values, operators))
 
 
 # Part Two
@@ -33,11 +29,7 @@ def part_2(file_name):
         return int(str(x) + str(y))
 
     operators = [lambda x, y: x + y, lambda x, y: x * y, concat]
-    return sum(
-        answer
-        for answer, values in read_equations(file_name)
-        if answer in calc(values, operators)
-    )
+    return sum(answer for answer, values in read_equations(file_name) if answer in calc(values, operators))
 
 
 if __name__ == "__main__":

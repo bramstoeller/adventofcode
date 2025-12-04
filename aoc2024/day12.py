@@ -5,9 +5,7 @@
 # Part One
 def read_map(file_name):
     data = open(file_name, "r").readlines()
-    return {
-        x + y * 1j: c for y, line in enumerate(data) for x, c in enumerate(line.strip())
-    }
+    return {x + y * 1j: c for y, line in enumerate(data) for x, c in enumerate(line.strip())}
 
 
 def find_4cc(p, grid):

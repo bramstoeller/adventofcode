@@ -17,7 +17,7 @@ def sum_grid(grid: Grid, roi: Roi | None = None) -> int | float:
     return sum(item for row in grid[y] for item in row[x] if isinstance(item, (int, float)))
 
 
-def count(grid: Grid, roi: Roi | None = None) -> int:
+def count(grid: Grid, roi: Roi | None = None) -> int | float:
     return count_if(grid, True, roi)
 
 
@@ -27,14 +27,14 @@ def count_if(grid: Grid, value: int | str | bool, roi: Roi | None = None) -> int
 
 
 def convolve(
-        grid: list[list[int | str]],
-        fn: Convolution,
-        nbh: int | tuple[int, int] = 3,
-        wrap: bool = False,
-        fill: int | str | None = None,
-        initial: int | str = 0,
-        update: bool = False,
-        debug: bool = False,
+    grid: list[list[int | str]],
+    fn: Convolution,
+    nbh: int | tuple[int, int] = 3,
+    wrap: bool = False,
+    fill: int | str | None = None,
+    initial: int | str = 0,
+    update: bool = False,
+    debug: bool = False,
 ):
     # dimensions
     height, width = len(grid), len(grid[0])

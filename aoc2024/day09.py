@@ -11,9 +11,7 @@ def read_disk(file_name):
 
 
 def decompress_1(disk):
-    return list(
-        chain(*([i // 2 if i % 2 == 0 else None] * n for i, n in enumerate(disk)))
-    )
+    return list(chain(*([i // 2 if i % 2 == 0 else None] * n for i, n in enumerate(disk))))
 
 
 def defrag_1(disk):
