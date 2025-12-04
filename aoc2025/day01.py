@@ -66,8 +66,8 @@ if __name__ == "__main__":
     from utils import run
 
     run(part_1, "data/day01-example.txt", expected=3)
-    run(part_1, "data/day01-data.txt")
-    x = run(part_2, "data/day01-example.txt", expected=6)
-    y = run(part_2, "data/day01-data.txt")
-    run(part_2_optimized, "data/day01-example.txt", expected=x)
-    run(part_2_optimized, "data/day01-data.txt", expected=y)
+    run(part_1, "data/day01-data.txt", expected=1177)
+    run(part_2, "data/day01-example.txt", expected=6)
+    run(part_2, "data/day01-data.txt", expected=6768)
+    run(part_2_optimized, "data/day01-example.txt", expected=6)
+    run(part_2_optimized, "data/day01-data.txt", expected=6768)
