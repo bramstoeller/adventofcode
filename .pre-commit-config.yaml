@@ -20,5 +20,4 @@ repos:
       - id: mypy
         name: Type check with mypy
         additional_dependencies:
-          - django-stubs
-          - types-openpyxl
+          - types-requests

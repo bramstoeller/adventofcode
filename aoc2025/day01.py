@@ -63,8 +63,9 @@ def part_2_optimized(input_file):
 
 
 if __name__ == "__main__":
-    from utils import run
+    from utils import run, download_puzzle_input
 
+    download_puzzle_input()
     run(part_1, "data/day01-example.txt", expected=3)
     run(part_1, "data/day01-data.txt", expected=1177)
     run(part_2, "data/day01-example.txt", expected=6)

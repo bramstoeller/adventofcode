@@ -19,8 +19,9 @@ def part_2(input_file):
 
 
 if __name__ == "__main__":
-    from utils import run
+    from utils import download_puzzle_input, run
 
+    download_puzzle_input()
     run(part_1, "data/day00-example.txt", expected=0)
     run(part_1, "data/day00-data.txt")
     run(part_2, "data/day00-example.txt", expected=0)

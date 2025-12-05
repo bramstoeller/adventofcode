@@ -44,8 +44,9 @@ def part_2(input_file):
 
 
 if __name__ == "__main__":
-    from utils import run
+    from utils import run, download_puzzle_input
 
+    download_puzzle_input()
     run(part_1, "data/day02-example.txt", expected=1227775554)
     run(part_1, "data/day02-data.txt", expected=23701357374)
     run(part_2, "data/day02-example.txt", expected=4174379265)

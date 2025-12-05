@@ -24,8 +24,6 @@ def part_1(input_file):
 
 
 # Part Two
-
-
 def move(grid, roi):
     ctr = center(grid, roi)
     is_roll = ctr == "@"
@@ -47,8 +45,9 @@ def part_2(input_file):
 
 
 if __name__ == "__main__":
-    from utils import run
+    from utils import run, download_puzzle_input
 
+    download_puzzle_input()
     run(part_1, "data/day04-example.txt", expected=13)
     run(part_1, "data/day04-data.txt", expected=1437)
     run(part_2, "data/day04-example.txt", expected=43)

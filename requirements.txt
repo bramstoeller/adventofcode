@@ -1,0 +1,6 @@
+# I do not use any external libraries in my code.
+# However, to automatically download the input data, I'm using the browser_cookie3 and requests libraries.
+
+browser_cookie3
+requests
+types-requests

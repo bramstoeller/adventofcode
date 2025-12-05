@@ -7,8 +7,6 @@ def load_data(input_file: str):
 
 
 # Part One
-
-
 def argmax(array):
     return max(array), array.index(max(array))
 
@@ -25,8 +23,6 @@ def part_1(input_file):
 
 
 # Part Two
-
-
 def part_2(input_file, n: int):
     data = load_data(input_file)
     total = 0
@@ -43,8 +39,9 @@ def part_2(input_file, n: int):
 
 
 if __name__ == "__main__":
-    from utils import run
+    from utils import run, download_puzzle_input
 
+    download_puzzle_input()
     run(part_1, "data/day03-example.txt", expected=357)
     run(part_1, "data/day03-data.txt", expected=17074)
     run(part_2, "data/day03-data.txt", n=2, expected=17074)
