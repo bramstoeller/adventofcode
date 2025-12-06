@@ -1,0 +1,32 @@
+name: Run Puzzles
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      puzzles: ${{ steps.find.outputs.puzzles }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        run: |
+          puzzles=$(find . -path './*/day*.py' -type f | sort | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "puzzles=$puzzles" >> $GITHUB_OUTPUT
+
+  run:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        puzzle: ${{ fromJson(needs.discover.outputs.puzzles) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run ${{ matrix.puzzle }}
+        run: python ${{ matrix.puzzle }}
