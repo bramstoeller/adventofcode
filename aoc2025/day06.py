@@ -1,27 +1,28 @@
-# Advent of Code 2025, Day 06
+# Advent of Code 2025, Day 6
 # https://adventofcode.com/2025/day/06
 from math import prod
+
+
+fn = {"+": sum, "*": prod}
 
 
 # Part One
 def load_data_1(input_file: str):
     data = open(input_file).read().strip().split("\n")
     table = (line.split() for line in data)
-    transposed = zip(*table)
-    return transposed
+    return zip(*table)
 
 
 def part_1(input_file):
     data = load_data_1(input_file)
-    entries = ((sum if opp == "+" else prod, map(int, values)) for *values, opp in data)
-    return sum(func(values) for func, values in entries)
+    entries = ((fn[opp], map(int, values)) for *values, opp in data)
+    return sum(f(values) for f, values in entries)
 
 
 # Part Two
 def load_data_2(input_file: str):
     data = (line for line in open(input_file).read().split("\n") if line.strip())
-    transposed = list(zip(*data))
-    return transposed
+    return list(zip(*data))
 
 
 def part_2(input_file):
@@ -33,10 +34,10 @@ def part_2(input_file):
         if not line:
             continue
         if opp.strip():
-            entries.append((sum if opp == "+" else prod, []))
+            entries.append((fn[opp], []))
         entries[-1][1].append(int(line))
 
-    return sum(func(values) for func, values in entries)
+    return sum(f(values) for f, values in entries)
 
 
 if __name__ == "__main__":
