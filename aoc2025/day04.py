@@ -8,43 +8,34 @@ def load_data(input_file: str):
 
 # Part One
 def count_nbh(grid, x, y):
-    count = 0
-    for dx in [-1, 0, 1]:
-        for dy in [-1, 0, 1]:
-            if dx == 0 and dy == 0:
-                continue
-            nx, ny = x + dx, y + dy
-            if 0 <= nx < len(grid[0]) and 0 <= ny < len(grid):
-                count += grid[ny][nx] == "@"
-    return count
+    h, w = len(grid), len(grid[0])
+    xr = range(max(0, x - 1), min(w, x + 2))
+    yr = range(max(0, y - 1), min(h, y + 2))
+    return sum(grid[j][i] == "@" for j in yr for i in xr)
 
 
 def part_1(input_file):
     grid = load_data(input_file)
-    count_grid = [[0] * len(grid[0]) for _ in range(len(grid))]
-    for y in range(len(grid)):
-        for x in range(len(grid[0])):
-            count_grid[y][x] = grid[y][x] != "." and count_nbh(grid, x, y) < 4
-    return sum(sum(row) for row in count_grid)
+    h, w = len(grid), len(grid[0])
+    xr, yr = range(w), range(h)
+    movable = (grid[y][x] == "@" and count_nbh(grid, x, y) <= 4 for y in yr for x in xr)
+    return sum(movable)
 
 
 # Part Two
 def part_2(input_file):
     grid = load_data(input_file)
-    count_grid = [[0] * len(grid[0]) for _ in range(len(grid))]
+    h, w = len(grid), len(grid[0])
     total = 0
-    while True:
-        for y in range(len(grid)):
-            for x in range(len(grid[0])):
-                count_grid[y][x] = grid[y][x] != "." and count_nbh(grid, x, y) < 4
-        for y in range(len(grid)):
-            for x in range(len(grid[0])):
-                if count_grid[y][x]:
-                    grid[y][x] = "."
-        x = sum(sum(row) for row in count_grid)
-        if x == 0:
-            break
-        total += x
+    moving = True
+    while moving:
+        moving = False
+        for y in range(h):
+            for x in range(w):
+                if grid[y][x] == "@" and count_nbh(grid, x, y) <= 4:
+                    moving = True
+                    grid[y][x] = " "
+                    total += 1
     return total
 
 
