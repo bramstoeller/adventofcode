@@ -3,7 +3,6 @@ import re
 from json import dumps
 from pathlib import Path
 from typing import Callable
-import requests
 
 CMD = "\033[97m"
 ARG = "\033[0m"
@@ -40,6 +39,9 @@ def download_puzzle_input():
     header = {"Cookie": f"session={get_aoc_session()}", "User-Agent": "adventofcode-input-downloader"}
 
     print(f"{CMD}Downloading puzzle input from {ARG}{url}{RST}")
+
+    import requests
+
     response = requests.get(url, headers=header)
 
     # Save data to file if request was successful
