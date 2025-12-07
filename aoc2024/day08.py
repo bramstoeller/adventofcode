@@ -20,8 +20,8 @@ def on_map(p, p_max):
 
 
 def find_anti_antennas(antennas, p_max):
-    anti_antennas = {p - (q - p) for antenna, points in antennas.items() for p, q in combinations(points, 2)}
-    anti_antennas |= {q + (q - p) for antenna, points in antennas.items() for p, q in combinations(points, 2)}
+    anti_antennas = {p - (q - p) for points in antennas.values() for p, q in combinations(points, 2)}
+    anti_antennas |= {q + (q - p) for points in antennas.values() for p, q in combinations(points, 2)}
     return {p for p in anti_antennas if on_map(p, p_max)}
 
 

@@ -22,7 +22,7 @@ def find_occurrences(data, needle):
             if y + dy * (n - 1) < 0 or y + dy * (n - 1) > max_y:
                 continue
             for dx in [-1, 0, 1]:
-                if dx == 0 and dy == 0 or x + dx * (n - 1) < 0 or x + dx * (n - 1) > max_x:
+                if (dx == 0 and dy == 0) or x + dx * (n - 1) < 0 or x + dx * (n - 1) > max_x:
                     continue
                 if all(c == data[y + i * dy][x + i * dx] for i, c in enumerate(needle)):
                     yield x, y, dx, dy

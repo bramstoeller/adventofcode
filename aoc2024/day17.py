@@ -91,9 +91,9 @@ def fn_1(a, b, c, program):
         opcode = program[cursor]
         operand = program[cursor + 1]
         instruction = instructions[opcode]
-        out = instruction(reg, operand)
-        if out is not None:
-            output.append(out)
+        result = instruction(reg, operand)
+        if result is not None:
+            output.append(result)
     return output
 
 
@@ -112,11 +112,11 @@ def fn_2(a, b, c, program):
         opcode = program[cursor]
         operand = program[cursor + 1]
         instruction = instructions[opcode]
-        out = instruction(reg, operand)
-        if out is not None:
-            if out != program[len(output)]:
+        result = instruction(reg, operand)
+        if result is not None:
+            if result != program[len(output)]:
                 return False
-            output.append(out)
+            output.append(result)
     return output == program
 
 

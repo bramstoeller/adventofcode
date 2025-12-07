@@ -43,9 +43,6 @@ if __name__ == "__main__":
     from utils import run
 
     run(part_1, "data/day19-example.txt", expected=6)
-    run(
-        part_1,
-        "data/day19-data.txt",
-    )
+    run(part_1, "data/day19-data.txt", expected=226)
     run(part_2, "data/day19-example.txt", expected=16)
-    run(part_2, "data/day19-data.txt")
+    run(part_2, "data/day19-data.txt", expected=601201576113503)

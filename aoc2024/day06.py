@@ -32,8 +32,8 @@ def move(obstacles, pos, direction, max_x, max_y):
     return visited
 
 
-def part_1(files_name):
-    return len(move(*read_map(files_name)))
+def part_1(file_name):
+    return len(move(*read_map(file_name)))
 
 
 # Part Two

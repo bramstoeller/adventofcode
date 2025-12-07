@@ -32,7 +32,7 @@ def defrag_1(disk):
 
 
 def checksum(disk):
-    return sum(i * id if id is not None else 0 for i, id in enumerate(disk))
+    return sum(i * file_id if file_id is not None else 0 for i, file_id in enumerate(disk))
 
 
 def part_1(file_name):
@@ -50,8 +50,8 @@ def defrag_2(disk):
     back = len(disk)
     while back > 0:
         back -= 1
-        id, n = disk[back]
-        if id is None:
+        file_id, n = disk[back]
+        if file_id is None:
             continue
         for front in range(back):
             front_id, space = disk[front]
@@ -60,10 +60,10 @@ def defrag_2(disk):
             if space > n:
                 disk.insert(front + 1, (None, space - n))
                 back += 1
-            disk[front] = (id, n)
+            disk[front] = (file_id, n)
             disk[back] = (None, n)
             break
-    return chain(*([i] * n for i, n in disk))
+    return chain(*([file_id] * n for file_id, n in disk))
 
 
 def part_2(file_name):

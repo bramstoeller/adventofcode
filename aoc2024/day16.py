@@ -10,7 +10,7 @@ def load_map(file_name):
     return grid, start, end
 
 
-def fn_1(grid, start, end):
+def find_shortest_path(grid, start, end):
     open_set = {start}
     closed_set = {start: 0}
     while open_set:
@@ -33,11 +33,11 @@ def fn_1(grid, start, end):
 
 
 def part_1(file_name):
-    return min(fn_1(*load_map(file_name)))
+    return min(find_shortest_path(*load_map(file_name)))
 
 
 # Part Two
-def fn_2(grid: list[str], start: tuple[int, int, int, int], end: tuple[int, int]):
+def find_all_shortest_paths(grid: list[str], start: tuple[int, int, int, int], end: tuple[int, int]):
     open_set = {start}
     closed_set: dict[tuple[int, int, int, int], tuple[int, list[tuple[int, int, int, int]]]] = {start: (0, [])}
     while open_set:
@@ -82,7 +82,7 @@ def fn_2(grid: list[str], start: tuple[int, int, int, int], end: tuple[int, int]
 
 
 def part_2(file_name):
-    return len(fn_2(*load_map(file_name)))
+    return len(find_all_shortest_paths(*load_map(file_name)))
 
 
 if __name__ == "__main__":

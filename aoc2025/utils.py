@@ -51,7 +51,7 @@ def download_puzzle_input():
             file.write(response.text)
 
 
-def run(fn: Callable, input_file: str, *args, expected: int | None = None, **kwargs):
+def run(fn: Callable, input_file: str, *args, expected: int | str | None = None, **kwargs):
     def arg(v):
         return f"{ARG}{dumps(v)}{RST}"
 

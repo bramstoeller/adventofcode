@@ -1,5 +1,5 @@
 # Advent of Code 2025, Day 6
-# https://adventofcode.com/2025/day/06
+# https://adventofcode.com/2025/day/6
 from math import prod
 
 fn = {"+": sum, "*": prod}

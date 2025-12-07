@@ -12,7 +12,7 @@ RST = "\033[0m"
 BASE_DIR = Path(__file__).parent
 
 
-def run(fn: Callable, input_file: str, *args, expected: int | None = None, **kwargs):
+def run(fn: Callable, input_file: str, *args, expected: int | str | None = None, **kwargs):
     def arg(v):
         return f"{ARG}{dumps(v)}{RST}"
 

@@ -15,13 +15,13 @@ def find_mul_instructions(data, pattern):
 
 def part_1(file_name):
     pattern = re.compile(r"mul\((\d{1,3}),(\d{1,3})\)")
-    return sum(a * b for a, b in find_mul_instructions(load_data(file_name), pattern))
+    data = load_data(file_name)
+    return sum(a * b for a, b in find_mul_instructions(data, pattern))
 
 
 # Part Two
-def find_do_dont_instructions(file_name, pattern):
+def find_do_dont_instructions(data, pattern):
     enabled = True
-    data = open(file_name, "r").read()
     for match in pattern.finditer(data):
         txt, a, b = match.groups()
         if txt == "do()":
@@ -34,7 +34,8 @@ def find_do_dont_instructions(file_name, pattern):
 
 def part_2(file_name):
     pattern = re.compile(r"(mul\((\d{1,3}),(\d{1,3})\)|do\(\)|don\'t\(\))")
-    return sum(a * b for a, b in find_do_dont_instructions(file_name, pattern))
+    data = load_data(file_name)
+    return sum(a * b for a, b in find_do_dont_instructions(data, pattern))
 
 
 if __name__ == "__main__":
