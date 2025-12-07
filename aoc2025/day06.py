@@ -2,7 +2,6 @@
 # https://adventofcode.com/2025/day/06
 from math import prod
 
-
 fn = {"+": sum, "*": prod}
 
 
@@ -33,7 +32,7 @@ def part_2(input_file):
         line = "".join(chars).strip()
         if not line:
             continue
-        if opp.strip():
+        if opp != " ":
             entries.append((fn[opp], []))
         entries[-1][1].append(int(line))
 
