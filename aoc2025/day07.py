@@ -13,39 +13,30 @@ def part_1(input_file):
     beams = {data[0].index("S")}
     splitted = 0
     for line in data[1:]:
-        new_beams = {b for b in beams}
+        new_beams = beams.copy()
         for b in beams:
             if line[b] == "^":
                 new_beams.remove(b)
+                new_beams.add(b - 1)
+                new_beams.add(b + 1)
                 splitted += 1
-                if b > 1:
-                    new_beams.add(b - 1)
-                if b < len(line) - 1:
-                    new_beams.add(b + 1)
         beams = new_beams
-
     return splitted
 
 
 # Part Two
 def part_2(input_file):
     data = load_data(input_file)
-    beams = defaultdict(int)
-    beams[data[0].index("S")] = 1
-    splitted = 0
+    beams = defaultdict(int, {data[0].index("S"): 1})
     for line in data[1:]:
         new_beams = beams.copy()
         for b in beams:
             if beams[b] > 0 and line[b] == "^":
                 new_beams[b] -= beams[b]
-                splitted += 1
-                if b > 1:
-                    new_beams[b - 1] += beams[b]
-                if b < len(line) - 1:
-                    new_beams[b + 1] += beams[b]
+                new_beams[b - 1] += beams[b]
+                new_beams[b + 1] += beams[b]
         beams = new_beams
-
-    return sum(beams.values()) + 1
+    return sum(beams.values())
 
 
 if __name__ == "__main__":
@@ -53,6 +44,6 @@ if __name__ == "__main__":
 
     download_puzzle_input()
     run(part_1, "data/day07-example.txt", expected=21)
-    run(part_1, "data/day07-data.txt")
+    run(part_1, "data/day07-data.txt", expected=1524)
     run(part_2, "data/day07-example.txt", expected=40)
-    run(part_2, "data/day07-data.txt")
+    run(part_2, "data/day07-data.txt", expected=32982105837605)
