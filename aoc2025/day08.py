@@ -23,34 +23,31 @@ def square_distance(a: Box, b: Box):
     return dx * dx + dy * dy + dz * dz
 
 
-def all_distances(boxes):
-    return {(i, j): square_distance(a, b) for i, a in enumerate(boxes) for j, b in enumerate(boxes) if i < j}
+def sorted_connection(boxes):
+    return sorted(
+        ((i, j) for i in range(len(boxes)) for j in range(i + 1, len(boxes))),
+        key=lambda pair: square_distance(boxes[pair[0]], boxes[pair[1]]),
+    )
 
 
-def sort_distances(distances: dict[tuple[int, int], float]):
-    return [idx for idx, _ in sorted(distances.items(), key=lambda x: x[1])]
-
-
-def merge(groups: list[set], new_group: set):
-    linked = [i for i, m in enumerate(groups) if m & new_group]
+def merge(circuits: list[set], connection: set):
+    linked = [m for m in circuits if m & connection]
     if not linked:
-        groups.append(new_group)
-        return groups
-    first = linked[0]
-    rest = linked[1:]
-    groups[first] |= new_group
-    for i in rest:
-        groups[first] |= groups[i]
-    return groups[: first + 1] + [m for m in groups[first + 1 :] if not m & new_group]
+        circuits.append(connection)
+        return circuits
+    linked[0] |= connection
+    if len(linked) > 1:
+        linked[0] |= linked[1]
+        circuits.remove(linked[1])
+    return circuits
 
 
 # Part One
 def part_1(input_file: str, n: int, m: int = 3):
     boxes = load_data(input_file)
-    distances = all_distances(boxes)
-    sorted_edges = sort_distances(distances)
+    connections = sorted_connection(boxes)
     circuits: list[set[int]] = []
-    for a, b in sorted_edges[:n]:
+    for a, b in connections[:n]:
         circuits = merge(circuits, {a, b})
     circuit_sizes = list(reversed(sorted(len(c) for c in circuits)))
     return prod(circuit_sizes[:m])
@@ -59,11 +56,10 @@ def part_1(input_file: str, n: int, m: int = 3):
 # Part Two
 def part_2(input_file: str):
     boxes = load_data(input_file)
-    distances = all_distances(boxes)
-    sorted_edges = sort_distances(distances)
+    connections = sorted_connection(boxes)
     N = len(boxes)
     circuits: list[set[int]] = []
-    for a, b in sorted_edges:
+    for a, b in connections:
         circuits = merge(circuits, {a, b})
         if len(circuits) == 1 and len(circuits[0]) == N:
             return boxes[a].x * boxes[b].x
