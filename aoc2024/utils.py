@@ -1,3 +1,5 @@
+import inspect
+import re
 from json import dumps
 from pathlib import Path
 from typing import Callable
@@ -10,6 +12,43 @@ ERR = "\033[91m"
 RST = "\033[0m"
 
 BASE_DIR = Path(__file__).parent
+
+
+def get_aoc_session():
+    import browser_cookie3
+
+    for c in browser_cookie3.chrome(domain_name="adventofcode.com"):
+        if c.name == "session":
+            return c.value
+    raise KeyError("Could not find 'session' cookie for adventofcode.com")
+
+
+def download_puzzle_input():
+    # Determine caller file and corresponding paths
+    caller_file = Path(inspect.stack()[1].filename)
+    year = int(re.search(r"\d+", caller_file.parent.name).group(0))
+    day = int(re.search(r"\d+", caller_file.stem).group(0))
+    file_path = caller_file.parent / "data" / f"day{day:02}-data.txt"
+
+    # Check if data file already exists
+    if file_path.exists():
+        return
+
+    # Download data from Advent of Code
+    url = f"https://adventofcode.com/{year}/day/{day}/input"
+    header = {"Cookie": f"session={get_aoc_session()}", "User-Agent": "adventofcode-input-downloader"}
+
+    print(f"{CMD}Downloading puzzle input from {ARG}{url}{RST}")
+
+    import requests
+
+    response = requests.get(url, headers=header)
+
+    # Save data to file if request was successful
+    if response.status_code == 200:
+        file_path.parent.mkdir(exist_ok=True)
+        with open(file_path, "w") as file:
+            file.write(response.text)
 
 
 def run(fn: Callable, input_file: str, *args, expected: int | str | None = None, **kwargs):
