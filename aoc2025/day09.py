@@ -1,6 +1,5 @@
 # Advent of Code 2025, Day 9
 # https://adventofcode.com/2025/day/9
-from bisect import bisect
 from dataclasses import dataclass
 
 
@@ -28,43 +27,28 @@ def part_1(input_file):
 
 
 # Part Two
-def sorted_edges(vertices):
-    edges = list(zip(vertices, vertices[1:] + vertices[:1]))
-    vertical = ((a.x, min(a.y, b.y), max(a.y, b.y)) for a, b in edges if a.x == b.x)
-    horizontal = ((a.y, min(a.x, b.x), max(a.x, b.x)) for a, b in edges if a.y == b.y)
-    return sorted(vertical), sorted(horizontal)
-
-
-def intersect_any_edges(p0, p1, vertical, horizontal):
+def intersect_any_edges(p0, p1, horizontal, vertical):
     x0, x1 = min(p0.x, p1.x), max(p0.x, p1.x)
     y0, y1 = min(p0.y, p1.y), max(p0.y, p1.y)
-
-    lower_bound = bisect(vertical, (x0 + 1,))
-    upper_bound = bisect(vertical, (x1,))
-    for _, edge_y_min, edge_y_max in vertical[lower_bound:upper_bound]:
-        if edge_y_min < y1 and edge_y_max > y0:
+    for x, y_min, y_max in vertical:
+        if x0 < x < x1 and y1 > y_min and y0 < y_max:
             return True
-
-    lower_bound = bisect(horizontal, (y0 + 1,))
-    upper_bound = bisect(horizontal, (y1,))
-    for _, edge_x_min, edge_x_max in horizontal[lower_bound:upper_bound]:
-        if edge_x_min < x1 and edge_x_max > x0:
+    for y, x_min, x_max in horizontal:
+        if y0 < y < y1 and x1 > x_min and x0 < x_max:
             return True
-
     return False
 
 
 def part_2(input_file):
     tiles = load_data(input_file)
-    vertical, horizontal = sorted_edges(tiles)
-
+    edges = list(zip(tiles, tiles[1:] + tiles[:1]))
+    horizontal = [(a.y, min(a.x, b.x), max(a.x, b.x)) for a, b in edges if a.y == b.y]
+    vertical = [(a.x, min(a.y, b.y), max(a.y, b.y)) for a, b in edges if a.x == b.x]
     rectangles = ((a, b) for i, a in enumerate(tiles) for b in tiles[i + 1 :])
     rectangles = sorted(rectangles, key=lambda rect: area(*rect), reverse=True)
-
     for p0, p1 in rectangles:
-        if not intersect_any_edges(p0, p1, vertical, horizontal):
+        if not intersect_any_edges(p0, p1, horizontal, vertical):
             return area(p0, p1)
-
     return None
 
 
