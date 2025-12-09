@@ -127,6 +127,6 @@ if __name__ == "__main__":
 
     download_puzzle_input()
     run(part_1, "data/day09-example.txt", expected=50)
-    run(part_1, "data/day09-data.txt")
+    run(part_1, "data/day09-data.txt", expected=4746238001)
     run(part_2, "data/day09-example.txt", expected=24)
-    run(part_2, "data/day09-data.txt")
+    run(part_2, "data/day09-data.txt", expected=1552139370)
