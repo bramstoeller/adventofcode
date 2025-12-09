@@ -4,39 +4,29 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Node:
+class Tile:
     x: int
     y: int
 
 
 def load_data(input_file: str):
-    return [Node(*map(int, line.split(","))) for line in open(input_file).read().strip().split("\n")]
+    return [Tile(*map(int, line.split(","))) for line in open(input_file).read().strip().split("\n")]
 
 
-def area(a: Node, b: Node):
+def area(a: Tile, b: Tile):
     dx = abs(b.x - a.x) + 1
     dy = abs(b.y - a.y) + 1
     return dx * dy
 
 
-def sorted_rectangles(boxes):
-    return sorted(
-        ((i, j) for i in range(len(boxes)) for j in range(i + 1, len(boxes))),
-        key=lambda pair: area(boxes[pair[0]], boxes[pair[1]]),
-    )
-
-
 # Part One
 def part_1(input_file):
-    boxes = load_data(input_file)
-    connections = sorted_rectangles(boxes)
-    pair = connections[-1]
-    return area(boxes[pair[0]], boxes[pair[1]])
+    tiles = load_data(input_file)
+    rectangles = ((a, b) for i, a in enumerate(tiles) for b in tiles[i + 1 :])
+    return max(area(*rect) for rect in rectangles)
 
 
 # Part Two
-
-
 def node_in_polygon(p, vertices) -> bool:
     n = len(vertices)
 
@@ -46,7 +36,7 @@ def node_in_polygon(p, vertices) -> bool:
     def between(a: int, b: int, v: int) -> bool:
         return a <= v <= b if a <= b else b <= v <= a
 
-    def on_edge(p: Node, a: Node, b: Node) -> bool:
+    def on_edge(p: Tile, a: Tile, b: Tile) -> bool:
         if a.x == b.x:
             return p.x == a.x and between(a.y, b.y, p.y)
         return p.y == a.y and between(a.x, b.x, p.x)
@@ -70,26 +60,26 @@ def node_in_polygon(p, vertices) -> bool:
     return inside
 
 
-def in_polygon(a: Node, b: Node, boxes) -> bool:
+def in_polygon(a: Tile, b: Tile, vertices) -> bool:
     x0, x1 = min(a.x, b.x), max(a.x, b.x)
     y0, y1 = min(a.y, b.y), max(a.y, b.y)
 
-    corners = [Node(x0, y0), Node(x1, y0), Node(x1, y1), Node(x0, y1)]
+    corners = [Tile(x0, y0), Tile(x1, y0), Tile(x1, y1), Tile(x0, y1)]
     for p in corners:
-        if not node_in_polygon(p, boxes):
+        if not node_in_polygon(p, vertices):
             return False
 
     for d in [10001, 1001, 101, 11, 1]:
         for x in range(x0, x1 + 1, d):
-            p0 = Node(x, y0)
-            p1 = Node(x, y1)
-            if not node_in_polygon(p0, boxes) or not node_in_polygon(p1, boxes):
+            p0 = Tile(x, y0)
+            p1 = Tile(x, y1)
+            if not node_in_polygon(p0, vertices) or not node_in_polygon(p1, vertices):
                 return False
 
         for y in range(y0, y1 + 1, d):
-            p0 = Node(x0, y)
-            p1 = Node(x0, y)
-            if not node_in_polygon(p0, boxes) or not node_in_polygon(p1, boxes):
+            p0 = Tile(x0, y)
+            p1 = Tile(x0, y)
+            if not node_in_polygon(p0, vertices) or not node_in_polygon(p1, vertices):
                 return False
 
     return True
@@ -114,12 +104,14 @@ def plot_polygon(a, b, boxes):
 
 
 def part_2(input_file):
-    boxes = load_data(input_file)
-    connections = reversed(sorted_rectangles(boxes))
-    for connection in connections:
-        if in_polygon(boxes[connection[0]], boxes[connection[1]], boxes):
-            plot_polygon(boxes[connection[0]], boxes[connection[1]], boxes)
-            return area(boxes[connection[0]], boxes[connection[1]])
+    tiles = load_data(input_file)
+    rectangles = ((a, b) for i, a in enumerate(tiles) for b in tiles[i + 1 :])
+    rectangles = reversed(sorted(rectangles, key=lambda rect: area(*rect)))
+
+    for p0, p1 in rectangles:
+        if in_polygon(p0, p1, tiles):
+            plot_polygon(p0, p1, tiles)
+            return area(p0, p1)
 
 
 if __name__ == "__main__":
