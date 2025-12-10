@@ -30,11 +30,11 @@ def part_1(input_file):
 def intersect_any_edges(p0, p1, horizontal, vertical):
     x0, x1 = min(p0.x, p1.x), max(p0.x, p1.x)
     y0, y1 = min(p0.y, p1.y), max(p0.y, p1.y)
-    for x, y_min, y_max in vertical:
-        if x0 < x < x1 and y1 > y_min and y0 < y_max:
-            return True
     for y, x_min, x_max in horizontal:
         if y0 < y < y1 and x1 > x_min and x0 < x_max:
+            return True
+    for x, y_min, y_max in vertical:
+        if x0 < x < x1 and y1 > y_min and y0 < y_max:
             return True
     return False
 
@@ -44,6 +44,8 @@ def part_2(input_file):
     edges = list(zip(tiles, tiles[1:] + tiles[:1]))
     horizontal = [(a.y, min(a.x, b.x), max(a.x, b.x)) for a, b in edges if a.y == b.y]
     vertical = [(a.x, min(a.y, b.y), max(a.y, b.y)) for a, b in edges if a.x == b.x]
+    horizontal = sorted(horizontal, key=lambda edge: abs(edge[1] - edge[2]), reverse=True)
+    vertical = sorted(vertical, key=lambda edge: abs(edge[1] - edge[2]), reverse=True)
     rectangles = ((a, b) for i, a in enumerate(tiles) for b in tiles[i + 1 :])
     rectangles = sorted(rectangles, key=lambda rect: area(*rect), reverse=True)
     for p0, p1 in rectangles:
