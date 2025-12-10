@@ -2,7 +2,9 @@ name: Run Puzzles
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
   discover:
@@ -29,4 +31,5 @@ jobs:
         with:
           python-version: '3.x'
       - name: Run ${{ matrix.puzzle }}
+        timeout-minutes: 1
         run: python ${{ matrix.puzzle }}
