@@ -4,3 +4,7 @@
 browser_cookie3
 requests
 types-requests
+
+# Unfortunately I failed to keep my promise of not using any external libraries.
+numpy
+scipy
