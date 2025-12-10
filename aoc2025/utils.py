@@ -49,6 +49,9 @@ def download_puzzle_input():
         file_path.parent.mkdir(exist_ok=True)
         with open(file_path, "w") as file:
             file.write(response.text)
+    else:
+        print(f"{ERR}Failed to download puzzle input: HTTP {response.status_code}{RST}")
+        exit(1)
 
 
 def run(fn: Callable, input_file: str, *args, expected: int | str | None = None, **kwargs):
