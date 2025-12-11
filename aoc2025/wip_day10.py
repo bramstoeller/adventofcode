@@ -27,7 +27,6 @@ def find_path_1(start, goal, actions):
 
     while open_set:
         current = min(open_set, key=lambda x: f[x])
-        print(f"Current: {current}, f={f[current]}, g={g[current]}")
         if current == goal:
             return reconstruct_path(came_from, current)
         open_set.remove(current)
@@ -50,7 +49,7 @@ def find_path_1(start, goal, actions):
 
 
 def distance_1(current: State1, target: State1) -> float:
-    return 1 if not all(c == t for c, t in zip(current, target)) else 0
+    return sum(c != t for c, t in zip(current, target)) / len(current)
 
 
 def get_neighbors_1(current: State1, buttons: Buttons):
@@ -90,7 +89,7 @@ def find_path_2(start, goal, actions):
     f = {start: distance_2(start, goal, actions)}
 
     while open_set:
-        current = min(open_set, key=lambda x: (f[x], -max(x[0])))
+        current = min(open_set, key=lambda x: (f[x]))
         if current == goal:
             return g[current]
         open_set.remove(current)
@@ -134,7 +133,9 @@ def distance_2(current: State2, target: State2, buttons: Buttons) -> float:
         return float("inf")
 
     # Return the maximum difference between target and current values
-    return max((t - c) for c, t in zip(c_values, t_values))
+    d0 = max((t - c) for c, t in zip(c_values, t_values))
+    d1 = sum(t - c for c, t in zip(c_values, t_values)) / n
+    return 0.9 * d0 + 0.1 * d1
 
 
 def get_neighbors_2(current: State2, target: State2, buttons: Buttons):
@@ -148,7 +149,7 @@ def get_neighbors_2(current: State2, target: State2, buttons: Buttons):
 
 
 def part_2(input_file):
-    print("---")
+    print()
     machines = load_data(input_file)
     total = 0
     for _, buttons, target in machines:
@@ -165,7 +166,7 @@ if __name__ == "__main__":
     from utils import download_puzzle_input, run
 
     download_puzzle_input()
-    # run(part_1, "data/day10-example.txt", expected=7)
-    # run(part_1, "data/day10-data.txt", expected=425)
+    run(part_1, "data/day10-example.txt", expected=7)
+    run(part_1, "data/day10-data.txt", expected=425)
     run(part_2, "data/day10-example.txt", expected=33)
     run(part_2, "data/day10-data.txt", expected=15883)
