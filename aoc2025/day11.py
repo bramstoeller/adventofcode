@@ -1,5 +1,6 @@
 # Advent of Code 2025, Day 11
 # https://adventofcode.com/2025/day/11
+from functools import cache
 
 
 def load_data(input_file: str):
@@ -7,37 +8,32 @@ def load_data(input_file: str):
     return {device: output.split() for device, output in (line.split(": ") for line in lines)}
 
 
-def find_all_paths(edges, current, goal):
+# Part One
+def find_all_paths(edges, start, goal):
     def depth_first_search(current):
         return current == goal or sum(depth_first_search(neighbor) for neighbor in edges[current])
 
-    return depth_first_search(current)
+    return depth_first_search(start)
 
 
-# Part One
 def part_1(input_file):
     return find_all_paths(load_data(input_file), "you", "out")
 
 
 # Part Two
-
-
 def count_all_paths(edges, start, goal, required_keys):
-    cache = dict()
-
-    def depth_first_count(current, keys):
+    @cache
+    def depth_first_count(current: str, *keys: bool):
         if current == goal:
-            return keys == required_keys
-        cache_key = current, tuple(sorted(keys))
-        if cache_key not in cache:
-            cache[cache_key] = sum(depth_first_count(nb, keys | (required_keys & {nb})) for nb in edges[current])
-        return cache[cache_key]
+            return all(keys)
+        nbh = ((nb, tuple(k or (nb == rk) for k, rk in zip(keys, required_keys))) for nb in edges[current])
+        return sum(depth_first_count(nb, *keys) for nb, keys in nbh)
 
-    return depth_first_count(start, set())
+    return depth_first_count(start, *(False for _ in required_keys))
 
 
 def part_2(input_file):
-    return count_all_paths(load_data(input_file), "svr", "out", {"dac", "fft"})
+    return count_all_paths(load_data(input_file), "svr", "out", ("dac", "fft"))
 
 
 if __name__ == "__main__":
